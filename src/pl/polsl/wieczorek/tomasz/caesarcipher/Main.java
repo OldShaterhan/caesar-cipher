@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.wieczorek.tomasz.caesarcipher;
 
 import java.util.List;
@@ -10,7 +5,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import pl.polsl.wieczorek.tomasz.caesarcipher.model.CaesarCipher;
 import pl.polsl.wieczorek.tomasz.caesarcipher.view.View;
-import pl.polsl.wieczorek.tomasz.caesarcipher.modeexception.ModeException;
+import pl.polsl.wieczorek.tomasz.caesarcipher.exceptions.ModeException;
 
 /**
  * Main class corresponding to code execution

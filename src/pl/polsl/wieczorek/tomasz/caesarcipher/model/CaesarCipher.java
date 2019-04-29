@@ -7,7 +7,8 @@ package pl.polsl.wieczorek.tomasz.caesarcipher.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import pl.polsl.wieczorek.tomasz.caesarcipher.modeexception.ModeException;
+import java.util.StringJoiner;
+import pl.polsl.wieczorek.tomasz.caesarcipher.exceptions.ModeException;
 import pl.polsl.wieczorek.tomasz.caesarcipher.view.View;
 
 /**
@@ -19,8 +20,7 @@ import pl.polsl.wieczorek.tomasz.caesarcipher.view.View;
 public class CaesarCipher {
 
     View view = new View();
-    
-    
+
     /**
      * message after encoding or message before decoding
      */
@@ -51,6 +51,8 @@ public class CaesarCipher {
      */
     public CaesarCipher(ArrayList<String> message, char mode, View view) throws ModeException {
 
+        this.shift = 3;
+
         switch (mode) {
             case 'e':
                 this.decryptedMessage = message;
@@ -67,7 +69,7 @@ public class CaesarCipher {
         }
 
         this.mode = mode;
-        this.shift = 3;
+
     }
 
     /**
@@ -75,7 +77,7 @@ public class CaesarCipher {
      */
     private void encryptMessage() {
         int encryptShift = this.shift;
-        this.encryptedMessage = this.cipherizeMessage(encryptShift, decryptedMessage);
+        this.encryptedMessage = this.cipherizeMessage(encryptShift, this.decryptedMessage);
     }
 
     /**
@@ -85,7 +87,7 @@ public class CaesarCipher {
     private void decryptMessage() {
         int decryptShift = 26 - this.shift;
 
-        this.decryptedMessage = this.cipherizeMessage(decryptShift, encryptedMessage);
+        this.decryptedMessage = this.cipherizeMessage(decryptShift, this.encryptedMessage);
     }
 
     /**
@@ -112,11 +114,10 @@ public class CaesarCipher {
      * @return value of encrypted message
      */
     public String getEncryptedMessage() {
-        StringBuilder messageMerged = new StringBuilder();
+        StringJoiner messageMerged = new StringJoiner(" ");
         this.encryptedMessage.forEach(msg
                 -> {
-            messageMerged.append(msg);
-            messageMerged.append(" ");
+            messageMerged.add(msg);
         });
 
         return messageMerged.toString();
@@ -128,11 +129,10 @@ public class CaesarCipher {
      * @return value of decrypted message
      */
     public String getDecryptedMessage() {
-        StringBuilder messageMerged = new StringBuilder();
+        StringJoiner messageMerged = new StringJoiner(" ");
         this.decryptedMessage.forEach(msg
                 -> {
-            messageMerged.append(msg);
-            messageMerged.append(" ");
+            messageMerged.add(msg);
         });
 
         return messageMerged.toString();

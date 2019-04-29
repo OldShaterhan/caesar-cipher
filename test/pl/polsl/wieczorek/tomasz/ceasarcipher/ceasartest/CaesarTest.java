@@ -10,7 +10,7 @@ import pl.polsl.wieczorek.tomasz.caesarcipher.model.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import pl.polsl.wieczorek.tomasz.caesarcipher.Main;
-import pl.polsl.wieczorek.tomasz.caesarcipher.modeexception.ModeException;
+import pl.polsl.wieczorek.tomasz.caesarcipher.exceptions.ModeException;
 import pl.polsl.wieczorek.tomasz.caesarcipher.view.View;
 
 /**
@@ -45,15 +45,18 @@ public class CaesarTest {
         try {
             cipher = new CaesarCipher(words, 'e', this.view);
         } catch (Exception e) {
-            fail("Shouldn't fail");
+            fail("Shouldn't fail - correct mode " + 'e' + " and arguments.");
         }
 
         String encrypted = cipher.getEncryptedMessage();
         String expected = "Dod pd nrwd CCC";
 
-        if (encrypted != expected) {
+        if (!encrypted.equals(expected)) {
+            System.out.println(encrypted.compareTo(expected));
             fail("Wrong encrypted message, should be: " + expected + ", is: " + encrypted);
         }
+        
+        view.printMessage("Encrypting test OK");
     }
 
     /*
@@ -70,15 +73,18 @@ public class CaesarTest {
         try {
             cipher = new CaesarCipher(words, 'd', this.view);
         } catch (Exception e) {
-            fail("Shouldn't fail");
+            fail("Shouldn't fail - correct mode " + 'd' + " and arguments.");
         }
 
-        String decrypted = cipher.getEncryptedMessage();
+        String decrypted = cipher.getDecryptedMessage();
         String expected = "zzz AAA WWW";
 
-        if (decrypted != expected) {
-            fail("Wrong encrypted message, should be: " + expected + ", is: " + decrypted);
+        if (!decrypted.equals(expected)) {
+            System.out.println(decrypted.compareTo(expected));
+            fail("Wrong decrypted message, should be: " + expected + ", is: " + decrypted);
         }
+        
+        view.printMessage("Decrypting test OK");
     }
 
     /*
@@ -101,20 +107,25 @@ public class CaesarTest {
         } catch (ModeException e) {
             view.printMessage("Mode error: " + e.getMessage());
         }
+        
+        view.printMessage("Mode test 1 OK");
     }
 
     @Test
     public void testCheckingMode2() {
+        this.view = new View();
+        
         Main main = new Main();
 
-        String[] args = {"eWordMode","Ala","ma","kota"};
+        String[] args = {"eWordMode", "Ala", "ma", "kota"};
 
         try {
             main.main(args);
-            fail("Should throw mode exception. Mode is " + args[0] + ", should be 'e' or 'd'");
-        } catch (ModeException e) {
-            view.printMessage("Mode error: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Shouldn't fail. Mode is " + args[0] + ", should be 'e' or 'd'");
         }
+        
+        view.printMessage("Mode test 2 OK");
     }
 
 }
