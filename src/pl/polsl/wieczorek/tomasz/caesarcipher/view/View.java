@@ -23,19 +23,22 @@ public class View {
      *
      * @throws ModeException exception about bad mode
      */
-    public void throwModeException() throws ModeException {
-        throw new ModeException();
-    }
-
+    /**
+     *
+     * public void throwModeException() throws ModeException { throw new
+     * ModeException(); }
+     */
     /**
      * Method to throw exception about wrong mode
      *
      * @throws ArrayIndexOutOfBoundsException - exception about bad mode
      */
-    public void throwOutOfIndexException() throws ArrayIndexOutOfBoundsException{
-        throw new ArrayIndexOutOfBoundsException();
-    }
-
+    /**
+     *
+     * public void throwOutOfIndexException() throws
+     * ArrayIndexOutOfBoundsException{ throw new
+     * ArrayIndexOutOfBoundsException(); }
+     */
     /**
      * Print message to the console
      *

@@ -29,30 +29,21 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        CaesarCipher ceasarCipher;
+        CaesarCipher caesarCipher;
         View view = new View();
         ArrayList<String> messageParts = new ArrayList<String>();
         char mode;
 
         try {
+            if (args[0].length()>1) {
+                throw new ModeException();
+            }
             mode = args[0].charAt(0);
             for (int i = 1; i < args.length; i++) {
                 messageParts.add(args[i]);
             }
-            ceasarCipher = new CaesarCipher(messageParts, mode);
+            caesarCipher = new CaesarCipher(messageParts, mode, view);
 
-            switch (mode) {
-                case 'e':
-                    ceasarCipher.encryptMessage();
-                    view.printMessage(ceasarCipher.getEncryptedMessage());
-                    break;
-                case 'd':
-                    ceasarCipher.decryptMessage();
-                    view.printMessage(ceasarCipher.getDecryptedMessage());
-                    break;
-                default:
-                    view.throwModeException();
-            }
         } catch (InputMismatchException e) {
             view.printMessage("Input Mismatch error: " + e.getMessage());
         } catch (ArrayIndexOutOfBoundsException e) {

@@ -8,6 +8,7 @@ package pl.polsl.wieczorek.tomasz.caesarcipher.model;
 import java.util.ArrayList;
 import java.util.List;
 import pl.polsl.wieczorek.tomasz.caesarcipher.modeexception.ModeException;
+import pl.polsl.wieczorek.tomasz.caesarcipher.view.View;
 
 /**
  * Class corresponding to message encrypting and decrypting
@@ -17,6 +18,9 @@ import pl.polsl.wieczorek.tomasz.caesarcipher.modeexception.ModeException;
  */
 public class CaesarCipher {
 
+    View view = new View();
+    
+    
     /**
      * message after encoding or message before decoding
      */
@@ -33,8 +37,7 @@ public class CaesarCipher {
     private char mode;
 
     /**
-     * number of characters by which message is shifted
-     * (encrypted)
+     * number of characters by which message is shifted (encrypted)
      */
     private int shift;
 
@@ -43,14 +46,24 @@ public class CaesarCipher {
      *
      * @param message - message
      * @param mode - mode of operation
+     * @param view - view that is responsible for printing data
+     * @throws ModeException when invalid mode provided
      */
-    public CaesarCipher(ArrayList<String> message, char mode) {
-        if (mode == 'e') {
-            this.decryptedMessage = message;
-        } else if (mode == 'd') {
-            this.encryptedMessage = message;
-        } else {
-            view.throwModeException();
+    public CaesarCipher(ArrayList<String> message, char mode, View view) throws ModeException {
+
+        switch (mode) {
+            case 'e':
+                this.decryptedMessage = message;
+                this.encryptMessage();
+                view.printMessage(this.getEncryptedMessage());
+                break;
+            case 'd':
+                this.encryptedMessage = message;
+                this.decryptMessage();
+                view.printMessage(this.getDecryptedMessage());
+                break;
+            default:
+                throw new ModeException();
         }
 
         this.mode = mode;
@@ -60,7 +73,7 @@ public class CaesarCipher {
     /**
      * Method to encrypt messages.
      */
-    public void encryptMessage() {
+    private void encryptMessage() {
         int encryptShift = this.shift;
         this.encryptedMessage = this.cipherizeMessage(encryptShift, decryptedMessage);
     }
@@ -69,7 +82,7 @@ public class CaesarCipher {
      * Method to decrypt messages. As cipherizeMessage is repetative, we can use
      * decryptShift to obtain decoding.
      */
-    public void decryptMessage() {
+    private void decryptMessage() {
         int decryptShift = 26 - this.shift;
 
         this.decryptedMessage = this.cipherizeMessage(decryptShift, encryptedMessage);
@@ -129,7 +142,8 @@ public class CaesarCipher {
      * Default method to encrypt messages. It uses modulo, so its repetative for
      * k*26+l.
      *
-     * @param int shift by which shifting is done (e.g. 3 - encrypt, 23 - decrypt)
+     * @param int shift by which shifting is done (e.g. 3 - encrypt, 23 -
+     * decrypt)
      * @param words message to be encrypted or decrypted
      */
     private ArrayList<String> cipherizeMessage(int shift, ArrayList<String> words) {
@@ -137,7 +151,7 @@ public class CaesarCipher {
         StringBuilder result = new StringBuilder();
         ArrayList<String> cipherizedMessage = new ArrayList<String>();
 
-        for (String word  : words) {
+        for (String word : words) {
             result.delete(0, result.length());
             for (int i = 0; i < word.length(); i++) {
                 if (Character.isUpperCase(word.charAt(i))) {
