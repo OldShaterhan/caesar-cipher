@@ -36,6 +36,7 @@ public class CaesarTest {
      */
     @Test
     public void testEncrypting() {
+        System.out.println("Encrypting test:");
         this.view = new View();
         ArrayList<String> words = new ArrayList<String>();
         words.add("Ala");
@@ -55,8 +56,8 @@ public class CaesarTest {
             System.out.println(encrypted.compareTo(expected));
             fail("Wrong encrypted message, should be: " + expected + ", is: " + encrypted);
         }
-        
-        view.printMessage("Encrypting test OK");
+
+        System.out.println("Encrypting test OK\n\n");
     }
 
     /*
@@ -64,6 +65,7 @@ public class CaesarTest {
      */
     @Test
     public void testDecrypting() {
+        System.out.println("Decrypting test:");
         this.view = new View();
 
         ArrayList<String> words = new ArrayList<String>();
@@ -83,15 +85,16 @@ public class CaesarTest {
             System.out.println(decrypted.compareTo(expected));
             fail("Wrong decrypted message, should be: " + expected + ", is: " + decrypted);
         }
-        
-        view.printMessage("Decrypting test OK");
+
+        System.out.println("Decrypting test OK\n\n");
     }
 
     /*
     * Checks if wrong mode is caught
      */
     @Test
-    public void testCheckingMode1() {
+    public void cipherWrongModeTest() {
+        System.out.println("Wrong mode test:");
         this.view = new View();
 
         ArrayList<String> words = new ArrayList<String>();
@@ -105,16 +108,51 @@ public class CaesarTest {
             cipher = new CaesarCipher(words, testMode, this.view);
             fail("Should throw mode exception. Mode is " + testMode + ", should be 'e' or 'd'");
         } catch (ModeException e) {
-            view.printMessage("Mode error: " + e.getMessage());
+            System.out.println("Mode error: " + e.getMessage() + ". Wrong mode test OK\n\n");
         }
-        
-        view.printMessage("Mode test 1 OK");
     }
 
     @Test
-    public void testCheckingMode2() {
+    public void mainEncryptModeTest() {
+        System.out.println("Main encrypt test:");
         this.view = new View();
-        
+
+        Main main = new Main();
+
+        String[] args = {"e", "aaa", "DDD", "ZzZ"};
+
+        try {
+            main.main(args);
+        } catch (Exception e) {
+            fail("Shouldn't fail. Mode is " + args[0] + ", should be 'e' or 'd'");
+        }
+
+        System.out.println("Main test encrypt OK\n\n");
+    }
+
+    @Test
+    public void mainDecryptModeTest() {
+        System.out.println("Main decrypt test:");
+        this.view = new View();
+
+        Main main = new Main();
+
+        String[] args = {"d", "AaA", "pPp", "yYy"};
+
+        try {
+            main.main(args);
+        } catch (Exception e) {
+            fail("Shouldn't fail. Mode is " + args[0] + ", should be 'e' or 'd'");
+        }
+
+        System.out.println("Main test decrypt OK\n\n");
+    }
+
+    @Test
+    public void mainTestWrongMode() {
+        System.out.println("Main wrong mode test:");
+        this.view = new View();
+
         Main main = new Main();
 
         String[] args = {"eWordMode", "Ala", "ma", "kota"};
@@ -124,8 +162,8 @@ public class CaesarTest {
         } catch (Exception e) {
             fail("Shouldn't fail. Mode is " + args[0] + ", should be 'e' or 'd'");
         }
-        
-        view.printMessage("Mode test 2 OK");
+
+        System.out.println("Main test wrong mode OK\n\n");
     }
 
 }

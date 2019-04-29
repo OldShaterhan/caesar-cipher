@@ -44,7 +44,7 @@ public class Main {
         } catch (ArrayIndexOutOfBoundsException e) {
             view.printMessage("Array Index Out Of Bounds error: " + e.getMessage());
         } catch (ModeException e) {
-            view.printMessage("Mode error: " + e.getMessage());
+            view.printMessage("Wrong mode error: " + e.getMessage());
         }
     }
 
